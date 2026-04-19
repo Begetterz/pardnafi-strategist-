@@ -1,0 +1,53 @@
+[
+  {
+    "id": "venus-usdt-lend",
+    "name": "Venus USDT Supply",
+    "protocol": "Venus",
+    "chain": "BSC",
+    "category": "stable-lending",
+    "asset": "USDT",
+    "base_apy": 0.067,
+    "reward_apr": 0.018,
+    "fee_drag": 0.002,
+    "reward_haircut": 0.2,
+    "lockup_days": 0,
+    "complexity": 0.2,
+    "il_exposure": 0.0,
+    "liquidity_depth": 0.9,
+    "risk_level": "low"
+  },
+  {
+    "id": "cake-busd-usdt-lp",
+    "name": "Pancake BUSD-USDT LP",
+    "protocol": "PancakeSwap",
+    "chain": "BSC",
+    "category": "stable-lp",
+    "asset": "BUSD/USDT",
+    "base_apy": 0.045,
+    "reward_apr": 0.034,
+    "fee_drag": 0.003,
+    "reward_haircut": 0.25,
+    "lockup_days": 0,
+    "complexity": 0.45,
+    "il_exposure": 0.3,
+    "liquidity_depth": 0.85,
+    "risk_level": "medium"
+  },
+  {
+    "id": "opbnb-usdc-lend",
+    "name": "opBNB USDC Supply",
+    "protocol": "Lista",
+    "chain": "opBNB",
+    "category": "stable-lending",
+    "asset": "USDC",
+    "base_apy": 0.061,
+    "reward_apr": 0.011,
+    "fee_drag": 0.002,
+    "reward_haircut": 0.3,
+    "lockup_days": 1,
+    "complexity": 0.25,
+    "il_exposure": 0.0,
+    "liquidity_depth": 0.8,
+    "risk_level": "low"
+  }
+]
