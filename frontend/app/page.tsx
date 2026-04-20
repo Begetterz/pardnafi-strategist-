@@ -1,10 +1,10 @@
-import StrategyList from "../components/StrategyList";
-import HeroStats from "../components/HeroStats";
+import HeroStats from '../components/HeroStats';
+import StrategyList from '../components/StrategyList';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      <div className="max-w-7xl mx-auto px-6 py-6">
+    <main className="min-h-screen text-brand-ink">
+      <div className="strategist-shell strategist-stack">
         <HeroStats />
         <StrategyList />
       </div>

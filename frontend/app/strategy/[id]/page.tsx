@@ -1,92 +1,119 @@
-import SimulationTable from "../../../components/SimulationTable";
-import ExplanationPanel from "../../../components/ExplanationPanel";
-import LiveMetricsControls from "../../../components/LiveMetricsControls";
-import CopyStrategyButton from "../../../components/CopyStrategyButton";
+import CopyStrategyButton from '../../../components/CopyStrategyButton';
+import ExplanationPanel from '../../../components/ExplanationPanel';
+import LiveMetricsControls from '../../../components/LiveMetricsControls';
+import SimulationTable from '../../../components/SimulationTable';
+import { getStrategyById } from '../../../lib/strategies';
 
-const strategy = {
-  id: "venus-usdt",
-  name: "Stable Lending Strategy",
-  protocol: "Venus",
-  chain: "BSC",
-  assets: ["USDT"],
-  expectedNetApy: 8.2,
-  risk: "Low",
-  simulation: {
-    thirtyDays: { best: 10.8, base: 9.6, stress: 6.3 },
-    ninetyDays: { best: 33.4, base: 28.2, stress: 18.4 },
-    oneEightyDays: { best: 69.2, base: 58.7, stress: 38.1 },
-  },
-  education: {
-    whatItDoes: "Supplies stablecoins into a lending market to earn base yield and incentive rewards.",
-    whySelected: "Lower complexity and steadier profile than LP farming, with a solid risk-adjusted score.",
-    mainRisks: "Rates can fall, incentives can change, and protocol smart contract risk remains.",
-    bestFor: "Users who want a simpler savings-oriented DeFi strategy rather than aggressive farming.",
-  },
+type StrategyInspectPageProps = {
+  params: {
+    id: string;
+  };
 };
 
-export default function StrategyInspectPage() {
+function riskClass(risk: 'Low' | 'Medium' | 'High') {
+  if (risk === 'Low') return 'strategist-badge strategist-badge-positive';
+  if (risk === 'Medium') return 'strategist-badge strategist-badge-caution';
+  return 'strategist-badge strategist-badge-danger';
+}
+
+export default function StrategyInspectPage({ params }: StrategyInspectPageProps) {
+  const strategy = getStrategyById(params.id);
+
+  if (!strategy) {
+    return (
+      <main className="min-h-screen">
+        <div className="strategist-shell">
+          <section className="strategist-panel bg-white p-8">
+            <p className="strategist-kicker text-brand-blue">Not found</p>
+            <h1 className="mt-2 text-3xl font-semibold text-brand-ink">The strategy ID does not exist in this local seed.</h1>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
+  const primaryScenario = strategy.scenarios[1] ?? strategy.scenarios[0];
+
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
-        <div className="bg-white border rounded-2xl shadow-sm p-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
-              <p className="text-sm text-gray-500">{strategy.protocol} · {strategy.chain}</p>
-              <h1 className="text-3xl font-bold text-[#0047AB] mt-1">{strategy.name}</h1>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {strategy.assets.map((asset) => (
-                  <span key={asset} className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">
-                    {asset}
-                  </span>
-                ))}
-                <span className="text-xs px-2 py-1 rounded-full bg-red-100 text-red-700">
-                  {strategy.risk} Risk
-                </span>
+    <main className="min-h-screen text-brand-ink">
+      <div className="strategist-shell strategist-stack">
+        <section className="strategist-panel strategist-hero p-6 md:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="strategist-proof">{strategy.protocol}</span>
+                <span className="strategist-proof">{strategy.chain}</span>
+                <span className={riskClass(strategy.risk)}>{strategy.risk} risk</span>
+              </div>
+              <div>
+                <p className="strategist-kicker">Inspect strategy</p>
+                <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">{strategy.name}</h1>
+                <p className="mt-3 max-w-3xl text-base text-white/76 md:text-lg">{strategy.verdict}</p>
               </div>
             </div>
-
-            <div className="bg-[#F8FAFF] border border-[#D7E4FF] rounded-2xl p-4 min-w-[220px]">
-              <p className="text-sm text-gray-500">Expected Net APY</p>
-              <p className="text-3xl font-bold text-green-600 mt-1">{strategy.expectedNetApy}%</p>
-              <p className="text-xs text-gray-500 mt-2">
-                Simulation only. Not financial advice. Rates may change.
-              </p>
+            <div className="strategist-panel border border-white/14 bg-white/10 p-5 shadow-none backdrop-blur-sm lg:max-w-sm">
+              <p className="strategist-kicker text-white/65">Current 90d read</p>
+              <p className="mt-3 text-4xl font-semibold text-white">{primaryScenario.projectedReturn}</p>
+              <p className="mt-3 text-sm text-white/74">{primaryScenario.keyAssumption}</p>
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <div className="xl:col-span-2 space-y-6">
+        </section>
+        <div className="strategist-grid-2">
+          <section className="strategist-stack">
+            <div className="strategist-panel bg-white p-5 md:p-6">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div>
+                  <p className="strategist-kicker text-brand-blue">Outcome story</p>
+                  <h2 className="mt-1 text-2xl font-semibold text-brand-ink md:text-3xl">What happens over 30, 90, and 180 days.</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {strategy.scenarios.map((scenario) => (
+                    <span key={scenario.label} className={scenario.label === primaryScenario.label ? 'strategist-button-secondary' : 'strategist-button-ghost'}>
+                      {scenario.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
             <LiveMetricsControls />
-            <SimulationTable simulation={strategy.simulation} />
+            <SimulationTable scenarios={strategy.scenarios} />
             <ExplanationPanel education={strategy.education} />
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-white border rounded-2xl shadow-sm p-5">
-              <h2 className="text-lg font-semibold text-[#0047AB]">Strategy Summary</h2>
-              <dl className="mt-4 space-y-3 text-sm">
-                <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">Protocol</dt>
-                  <dd className="font-medium">{strategy.protocol}</dd>
+          </section>
+          <aside className="strategist-stack strategist-sticky">
+            <section className="strategist-panel bg-white p-5 md:p-6">
+              <p className="strategist-kicker text-brand-blue">Strategy summary</p>
+              <div className="mt-4 space-y-4">
+                <div>
+                  <p className="text-sm strategist-quiet">Expected net APY</p>
+                  <p className="mt-1 text-4xl font-semibold text-brand-green">{strategy.expectedNetApy}%</p>
                 </div>
-                <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">Chain</dt>
-                  <dd className="font-medium">{strategy.chain}</dd>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">Assets</dt>
-                  <dd className="font-medium">{strategy.assets.join(", ")}</dd>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">Risk</dt>
-                  <dd className="font-medium">{strategy.risk}</dd>
-                </div>
-              </dl>
-            </div>
-
-            <CopyStrategyButton strategyId={1} />
-          </div>
+                <dl className="grid gap-3 text-sm">
+                  <div className="flex items-start justify-between gap-4">
+                    <dt className="strategist-quiet">Protocol</dt>
+                    <dd className="font-medium text-brand-ink">{strategy.protocol}</dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-4">
+                    <dt className="strategist-quiet">Chain</dt>
+                    <dd className="font-medium text-brand-ink">{strategy.chain}</dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-4">
+                    <dt className="strategist-quiet">Assets</dt>
+                    <dd className="font-medium text-brand-ink">{strategy.assets.join(', ')}</dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-4">
+                    <dt className="strategist-quiet">Why now</dt>
+                    <dd className="max-w-[220px] text-right font-medium text-brand-ink">{strategy.whyNow}</dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
+            <section className="strategist-panel bg-white p-5 md:p-6">
+              <p className="strategist-kicker text-brand-blue">Risk focus</p>
+              <h2 className="mt-2 text-xl font-semibold text-brand-ink">Watch the assumptions, not just the APY.</h2>
+              <p className="mt-3 text-sm leading-6 strategist-quiet">{strategy.education.mainRisks}</p>
+            </section>
+            <CopyStrategyButton strategyId={strategy.id} />
+          </aside>
         </div>
       </div>
     </main>
