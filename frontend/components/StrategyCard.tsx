@@ -16,7 +16,7 @@ export default function StrategyCard({ strategy, emphasis = 'compact' }: Strateg
   const isSpotlight = emphasis === 'spotlight';
 
   return (
-    <article className={['strategist-panel strategist-opportunity p-5', isSpotlight ? 'bg-slate-950 text-white border-slate-800 shadow-strategist' : 'bg-white text-brand-ink'].join(' ')}>
+    <article className={['strategist-panel strategist-opportunity p-5', isSpotlight ? 'strategist-panel-spotlight text-white shadow-strategist' : 'strategist-panel-contrast text-brand-ink'].join(' ')}>
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">

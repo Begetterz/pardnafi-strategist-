@@ -56,11 +56,31 @@ select {
 }
 
 .strategist-panel {
-  border: 1px solid rgba(213, 221, 238, 0.9);
+  --panel-border: rgba(213, 221, 238, 0.9);
+  --panel-bg: rgba(255, 255, 255, 0.9);
+  --panel-shadow: 0 16px 48px rgba(17, 31, 61, 0.08);
+  border: 1px solid var(--panel-border);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 48px rgba(17, 31, 61, 0.08);
+  background: var(--panel-bg);
+  box-shadow: var(--panel-shadow);
   backdrop-filter: blur(18px);
+}
+
+.strategist-panel-contrast {
+  --panel-bg: rgba(255, 255, 255, 0.96);
+  --panel-border: rgba(213, 221, 238, 0.98);
+}
+
+.strategist-panel-spotlight {
+  --panel-bg: linear-gradient(180deg, #102551 0%, #0b1836 100%);
+  --panel-border: rgba(7, 18, 43, 0.9);
+  --panel-shadow: 0 24px 64px rgba(10, 22, 51, 0.24);
+}
+
+.strategist-panel-hero-side {
+  --panel-bg: rgba(9, 28, 70, 0.28);
+  --panel-border: rgba(255, 255, 255, 0.18);
+  --panel-shadow: 0 18px 44px rgba(9, 25, 60, 0.18);
 }
 
 .strategist-hero {
@@ -97,6 +117,26 @@ select {
   background: rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.92);
   font-size: 0.85rem;
+}
+
+.strategist-hero-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.9);
+  transition: background-color 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.strategist-hero-nav:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
 }
 
 .strategist-button,
@@ -182,8 +222,21 @@ select {
 .strategist-metric-tile {
   border-radius: 18px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.strategist-metric-tile p {
+  position: relative;
+  z-index: 1;
+}
+
+.strategist-hero-side-copy {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.strategist-hero-side-copy-muted {
+  color: rgba(255, 255, 255, 0.64);
 }
 
 .strategist-opportunity:hover {

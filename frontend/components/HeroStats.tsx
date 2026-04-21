@@ -19,23 +19,23 @@ export default function HeroStats() {
             <span className="strategist-proof">BSC + opBNB strategy coverage</span>
           </div>
         </div>
-        <aside className="strategist-panel border border-white/15 bg-white/10 p-5 shadow-none backdrop-blur-sm">
-          <p className="strategist-kicker text-white/70">Market state</p>
+        <aside className="strategist-panel strategist-panel-hero-side p-5 backdrop-blur-sm">
+          <p className="strategist-kicker strategist-hero-side-copy-muted">Market state</p>
           <div className="strategist-metric-grid mt-4 md:grid-cols-1">
             <div className="strategist-metric-tile">
-              <p className="text-xs uppercase tracking-[0.16em] text-white/60">Strategies live</p>
+              <p className="text-xs uppercase tracking-[0.16em] strategist-hero-side-copy-muted">Strategies live</p>
               <p className="strategist-stat-value mt-2">12</p>
-              <p className="mt-2 text-sm text-white/72">Curated for BSC and opBNB opportunity scanning.</p>
+              <p className="mt-2 text-sm strategist-hero-side-copy">Curated for BSC and opBNB opportunity scanning.</p>
             </div>
             <div className="strategist-metric-tile">
-              <p className="text-xs uppercase tracking-[0.16em] text-white/60">Yield band</p>
+              <p className="text-xs uppercase tracking-[0.16em] strategist-hero-side-copy-muted">Yield band</p>
               <p className="strategist-stat-value mt-2">6% - 15%</p>
-              <p className="mt-2 text-sm text-white/72">Wide enough to compare stability against higher-risk sleeves.</p>
+              <p className="mt-2 text-sm strategist-hero-side-copy">Wide enough to compare stability against higher-risk sleeves.</p>
             </div>
             <div className="strategist-metric-tile">
-              <p className="text-xs uppercase tracking-[0.16em] text-white/60">Current mix</p>
+              <p className="text-xs uppercase tracking-[0.16em] strategist-hero-side-copy-muted">Current mix</p>
               <p className="strategist-stat-value mt-2">Balanced</p>
-              <p className="mt-2 text-sm text-white/72">The feed favors readable risk before aggressive upside.</p>
+              <p className="mt-2 text-sm strategist-hero-side-copy">The feed favors readable risk before aggressive upside.</p>
             </div>
           </div>
         </aside>

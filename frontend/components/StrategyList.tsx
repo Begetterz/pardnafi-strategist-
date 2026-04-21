@@ -8,7 +8,7 @@ export default function StrategyList() {
 
   return (
     <section className="strategist-stack">
-      <div className="strategist-panel bg-white p-5 md:p-6">
+      <div className="strategist-panel strategist-panel-contrast p-5 md:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-2">
             <p className="strategist-kicker text-brand-blue">Opportunity rail</p>
@@ -29,7 +29,7 @@ export default function StrategyList() {
           <StrategyCard key={strategy.id} strategy={strategy} emphasis="secondary" />
         ))}
       </div>
-      <div className="strategist-panel bg-white p-5 md:p-6">
+      <div className="strategist-panel strategist-panel-contrast p-5 md:p-6">
         <div className="mb-4 flex items-center justify-between gap-4">
           <div>
             <p className="strategist-kicker text-brand-blue">Remaining strategies</p>
