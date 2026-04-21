@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract StrategyRegistry {
-    address public immutable publisher;
+import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+contract StrategyRegistry is Ownable2Step {
+    uint8 public constant MAX_RISK_SCORE = 10;
     uint256 public strategyCount;
 
     struct Strategy {
@@ -19,16 +22,14 @@ contract StrategyRegistry {
     mapping(uint256 => Strategy) public strategies;
     mapping(bytes32 => bool) public strategyHashExists;
 
-    error NotPublisher();
     error InvalidStrategy();
     error InvalidStrategyHash();
     error InvalidChainId();
     error InvalidProtocol();
+    error InvalidRiskScore();
     error StrategyAlreadyPublished();
 
-    constructor() {
-        publisher = msg.sender;
-    }
+    constructor() Ownable(msg.sender) {}
 
     event StrategyPublished(
         uint256 indexed strategyId,
@@ -41,20 +42,13 @@ contract StrategyRegistry {
         address indexed user
     );
 
-    modifier onlyPublisher() {
-        if (msg.sender != publisher) {
-            revert NotPublisher();
-        }
-        _;
-    }
-
     function publishStrategy(
         bytes32 strategyHash,
         uint256 chainId,
         string memory protocol,
         uint256 expectedApyBps,
         uint8 riskScore
-    ) public onlyPublisher {
+    ) public onlyOwner {
         if (strategyHash == bytes32(0)) {
             revert InvalidStrategyHash();
         }
@@ -63,6 +57,9 @@ contract StrategyRegistry {
         }
         if (bytes(protocol).length == 0) {
             revert InvalidProtocol();
+        }
+        if (riskScore > MAX_RISK_SCORE) {
+            revert InvalidRiskScore();
         }
         if (strategyHashExists[strategyHash]) {
             revert StrategyAlreadyPublished();
@@ -78,11 +75,11 @@ contract StrategyRegistry {
             protocol: protocol,
             expectedApyBps: expectedApyBps,
             riskScore: riskScore,
-            publisher: msg.sender,
+            publisher: owner(),
             timestamp: block.timestamp
         });
 
-        emit StrategyPublished(strategyCount, strategyHash, msg.sender);
+        emit StrategyPublished(strategyCount, strategyHash, owner());
     }
 
     function copyStrategy(uint256 strategyId) public {

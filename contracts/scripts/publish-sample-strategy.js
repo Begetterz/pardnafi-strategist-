@@ -33,8 +33,8 @@ async function main() {
     throw new Error('EXPECTED_APY_BPS must be a non-negative integer.');
   }
 
-  if (!Number.isInteger(riskScore) || riskScore < 0 || riskScore > 255) {
-    throw new Error('RISK_SCORE must be an integer between 0 and 255.');
+  if (!Number.isInteger(riskScore) || riskScore < 0 || riskScore > 10) {
+    throw new Error('RISK_SCORE must be an integer between 0 and 10.');
   }
 
   const tx = await contract.publishStrategy(
