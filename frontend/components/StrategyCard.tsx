@@ -7,9 +7,9 @@ type StrategyCardProps = {
 };
 
 function riskClass(risk: Strategy['risk']) {
-  if (risk === 'Low') return 'strategist-badge strategist-badge-positive';
-  if (risk === 'Medium') return 'strategist-badge strategist-badge-caution';
-  return 'strategist-badge strategist-badge-danger';
+  if (risk === 'Low') return 'strategist-badge strategist-badge-conservative';
+  if (risk === 'Medium') return 'strategist-badge strategist-badge-balanced';
+  return 'strategist-badge strategist-badge-aggressive';
 }
 
 export default function StrategyCard({ strategy, emphasis = 'compact' }: StrategyCardProps) {

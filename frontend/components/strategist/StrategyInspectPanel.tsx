@@ -13,9 +13,9 @@ const REFRESH_DELAY_MS = 320;
 
 function riskClass(risk: string) {
   const normalizedRisk = risk.trim().toLowerCase();
-  if (normalizedRisk.includes('low')) return 'strategist-badge strategist-badge-positive';
-  if (normalizedRisk.includes('medium')) return 'strategist-badge strategist-badge-caution';
-  if (normalizedRisk.includes('high')) return 'strategist-badge strategist-badge-danger';
+  if (normalizedRisk.includes('low')) return 'strategist-badge strategist-badge-conservative';
+  if (normalizedRisk.includes('medium')) return 'strategist-badge strategist-badge-balanced';
+  if (normalizedRisk.includes('high')) return 'strategist-badge strategist-badge-aggressive';
   return 'strategist-badge strategist-badge-neutral';
 }
 
