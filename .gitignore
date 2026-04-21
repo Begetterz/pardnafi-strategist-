@@ -1,0 +1,6 @@
+contracts/node_modules/
+contracts/artifacts/
+contracts/cache/
+contracts/.env
+frontend/.env.local
+frontend/.next/

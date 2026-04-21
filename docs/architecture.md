@@ -299,7 +299,8 @@ README.md
   hackathon-plan.md
   clawbot.md
 /contracts
-  StrategyRegistry.sol
+  /src
+    StrategyRegistry.sol
   README.md
 /backend
   README.md

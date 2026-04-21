@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 contract StrategyRegistry {
+    address public immutable publisher;
     uint256 public strategyCount;
 
     struct Strategy {
@@ -16,17 +17,36 @@ contract StrategyRegistry {
     }
 
     mapping(uint256 => Strategy) public strategies;
+    mapping(bytes32 => bool) public strategyHashExists;
+
+    error NotPublisher();
+    error InvalidStrategy();
+    error InvalidStrategyHash();
+    error InvalidChainId();
+    error InvalidProtocol();
+    error StrategyAlreadyPublished();
+
+    constructor() {
+        publisher = msg.sender;
+    }
 
     event StrategyPublished(
         uint256 indexed strategyId,
         bytes32 strategyHash,
-        address publisher
+        address indexed publisher
     );
 
     event StrategyCopied(
         uint256 indexed strategyId,
-        address user
+        address indexed user
     );
+
+    modifier onlyPublisher() {
+        if (msg.sender != publisher) {
+            revert NotPublisher();
+        }
+        _;
+    }
 
     function publishStrategy(
         bytes32 strategyHash,
@@ -34,8 +54,22 @@ contract StrategyRegistry {
         string memory protocol,
         uint256 expectedApyBps,
         uint8 riskScore
-    ) public {
+    ) public onlyPublisher {
+        if (strategyHash == bytes32(0)) {
+            revert InvalidStrategyHash();
+        }
+        if (chainId == 0) {
+            revert InvalidChainId();
+        }
+        if (bytes(protocol).length == 0) {
+            revert InvalidProtocol();
+        }
+        if (strategyHashExists[strategyHash]) {
+            revert StrategyAlreadyPublished();
+        }
+
         strategyCount++;
+        strategyHashExists[strategyHash] = true;
 
         strategies[strategyCount] = Strategy({
             id: strategyCount,
@@ -52,7 +86,9 @@ contract StrategyRegistry {
     }
 
     function copyStrategy(uint256 strategyId) public {
-        require(strategyId > 0 && strategyId <= strategyCount, "Invalid strategy");
+        if (strategyId == 0 || strategyId > strategyCount) {
+            revert InvalidStrategy();
+        }
 
         emit StrategyCopied(strategyId, msg.sender);
     }
@@ -62,7 +98,9 @@ contract StrategyRegistry {
         view
         returns (Strategy memory)
     {
-        require(strategyId > 0 && strategyId <= strategyCount, "Invalid strategy");
+        if (strategyId == 0 || strategyId > strategyCount) {
+            revert InvalidStrategy();
+        }
         return strategies[strategyId];
     }
 }
